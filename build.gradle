@@ -1,0 +1,68 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'maven'
+
+version = '0.07.3'
+sourceSets.main.java.srcDirs = ['src']
+
+mainClassName = "org.sunflow.SunflowGUI"
+
+dependencies {
+	compile 'org.codehaus.janino:janino:2.5.16'
+}
+
+javadocTitle = "Sunflow v${project.version}"
+
+javadoc {
+    options.encoding('UTF-8')
+	options.windowTitle(javadocTitle)
+    options.docTitle(javadocTitle)
+}
+
+javadoc.doFirst {
+    javadoc.options.docTitle = javadocTitle
+}
+
+task createWrapper(type: Wrapper) {
+    gradleVersion = '1.0-milestone-3'
+}
+
+jar {
+    dependsOn configurations.runtime
+    from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+}
+
+
+task generatePom << {
+    pom {
+        project {
+			version version
+			description 'Sunflow Global Illumination Rendering System'
+			url 'http://sunflow.sourceforge.net/'
+
+            licenses {
+                license {
+					name 'MIT License'
+					url 'http://www.opensource.org/licenses/mit-license.php'
+                    distribution 'repo'
+                }
+            }
+						
+			issueManagement {
+				system 'github'
+				url 'https://github.com/skrat/sunflow/issues'
+			}
+
+			scm {
+				url 'https://github.com/skrat/sunflow'
+				connection 'scm:git:https://skrat@github.com/skrat/sunflow.git'
+				developerConnection 'scm:git:https://skrat@github.com/skrat/sunflow.git'
+			}
+		}
+    }.writeTo("pom.xml")
+}
