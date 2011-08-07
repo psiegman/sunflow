@@ -1,6 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'maven'
+apply plugin: 'eclipse'
 
 group = 'org.sunflow'
 version = '0.07.3'
@@ -67,6 +68,23 @@ task generatePom << {
 				url 'https://github.com/skrat/sunflow'
 				connection 'scm:git:https://skrat@github.com/skrat/sunflow.git'
 				developerConnection 'scm:git:https://skrat@github.com/skrat/sunflow.git'
+			}
+			
+			build {
+				plugins {
+					plugin {
+						groupId 'org.apache.maven.plugins'
+						artifactId 'maven-source-plugin'
+						executions {
+							execution {
+								id 'attach-sources'
+								goals {
+									goal 'jar'
+								}
+							}
+						}
+					}
+				}
 			}
 		}
     }.writeTo("pom.xml")
