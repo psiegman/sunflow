@@ -4,7 +4,6 @@ apply plugin: 'maven'
 
 group = 'org.sunflow'
 version = '0.07.3'
-sourceSets.main.java.srcDirs = ['src']
 
 mainClassName = "org.sunflow.SunflowGUI"
 
