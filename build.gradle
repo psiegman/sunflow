@@ -2,6 +2,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'maven'
 
+group = 'org.sunflow'
 version = '0.07.3'
 sourceSets.main.java.srcDirs = ['src']
 
@@ -25,6 +26,11 @@ javadoc.doFirst {
 
 task createWrapper(type: Wrapper) {
     gradleVersion = '1.0-milestone-3'
+}
+
+
+run {
+	maxHeapSize: '1G'
 }
 
 jar {
